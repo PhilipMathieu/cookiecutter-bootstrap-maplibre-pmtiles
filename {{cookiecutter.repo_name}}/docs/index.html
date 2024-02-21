@@ -17,21 +17,29 @@
     <style>
         :root {
             /* Override Bootstrap colors */
-            --bs-primary: #007bff;
+            --bs-primary: #6384aa;
+            --bs-primary-rgb: 99, 132, 170;
             /* Primary color */
             --bs-secondary: #6c757d;
+            --bs-secondary-rgb: 108, 117, 125;
             /* Secondary color */
             --bs-success: #28a745;
+            --bs-success-rgb: 40, 167, 69;
             /* Success color */
             --bs-danger: #dc3545;
+            --bs-danger-rgb: 220, 53, 69;
             /* Danger color */
             --bs-warning: #ffc107;
+            --bs-warning-rgb: 255, 193, 7;
             /* Warning color */
             --bs-info: #17a2b8;
+            --bs-info-rgb: 23, 162, 184;
             /* Info color */
             --bs-light: #f8f9fa;
+            --bs-light-rgb: 248, 249, 250;
             /* Light color */
             --bs-dark: #343a40;
+            --bs-dark-rgb: 52, 58, 64;
             /* Dark color */
             --bs-font-sans-serif: "Inter", sans-serif;
             /* Override default font */
@@ -39,7 +47,7 @@
 
         #map {
             width: 100%;
-            height: 75vh;
+            height: 60vh;
             /* Adjust height as needed */
         }
     </style>
@@ -130,6 +138,41 @@
                 'paint': {
                     'circle-radius': 6,
                     'circle-color': 'rgba(255,255,255,0.5)'
+                }
+            });
+
+            // Example of creating a popup for the map
+            let popup = null;
+
+            map.on('mouseenter', 'skiAreasCircles', function (e) {
+                // Change the cursor style as a UI indicator
+                map.getCanvas().style.cursor = 'pointer';
+
+                // Get the ski area name and coordinates from the feature properties
+                const skiAreaName = e.features[0].properties.NAME;
+                const lnglat = e.features[0].geometry.coordinates;
+                // Create a new popup if it doesn't exist
+                if (!popup) {
+                    popup = new maplibregl.Popup(
+                        {
+                            closeButton: false,
+                            closeOnClick: false
+                        }
+                    );
+                }
+
+                // Set the popup's coordinates and content
+                popup.setLngLat(lnglat).setHTML(skiAreaName).addTo(map);
+            });
+
+            map.on('mouseleave', 'skiAreasCircles', function () {
+                // Reset the cursor style
+                map.getCanvas().style.cursor = '';
+
+                // Remove the popup if it exists
+                if (popup) {
+                    popup.remove();
+                    popup = null;
                 }
             });
         });
