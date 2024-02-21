@@ -50,7 +50,7 @@ maplibregl.addProtocol("pmtiles", protocol.tile);
 // Create a new map instance
 const map = new maplibregl.Map({
     container: 'map', // container ID
-    style: 'https://api.maptiler.com/maps/satellite/style.json?key=MAPTILER_API_KEY', // style URL, replace with your own style if necessary
+    style: 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json', // style URL, replace with your own style if necessary
     center: [0, 0], // starting position [lng, lat]
     zoom: 1 // starting zoom
 });
